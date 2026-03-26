@@ -1,0 +1,92 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  color: var(--vscode-foreground);
+  padding: 12px;
+}
+
+.status-badge {
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.status-badge.safe { background: rgba(79, 204, 48, 0.15); color: #4FCC30; border: 1px solid rgba(79, 204, 48, 0.3); }
+.status-badge.warning { background: rgba(255, 220, 0, 0.15); color: #FFDC00; border: 1px solid rgba(255, 220, 0, 0.3); }
+.status-badge.danger { background: rgba(249, 60, 49, 0.15); color: #F93C31; border: 1px solid rgba(249, 60, 49, 0.3); }
+
+.section { margin-bottom: 16px; }
+.section h2 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--vscode-descriptionForeground);
+  margin-bottom: 8px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.stat {
+  background: var(--vscode-editor-background);
+  border-radius: 4px;
+  padding: 8px;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-family: monospace;
+}
+
+.file-item:hover { background: var(--vscode-list-hoverBackground); }
+
+.file-item .badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.badge.safe { background: rgba(79, 204, 48, 0.2); color: #4FCC30; }
+.badge.warning { background: rgba(255, 220, 0, 0.2); color: #FFDC00; }
+.badge.danger { background: rgba(249, 60, 49, 0.2); color: #F93C31; }
+
+.file-item .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.file-item .reason { font-size: 10px; color: var(--vscode-descriptionForeground); }
+
+.empty {
+  color: var(--vscode-descriptionForeground);
+  font-size: 12px;
+  text-align: center;
+  padding: 12px;
+}

@@ -1,0 +1,63 @@
+import * as vscode from 'vscode';
+import type { DashboardData } from './types';
+
+export class DashboardViewProvider implements vscode.WebviewViewProvider {
+  public static readonly viewType = 'copilotGuard.dashboard';
+  private view: vscode.WebviewView | undefined;
+  private extensionUri: vscode.Uri;
+
+  constructor(extensionUri: vscode.Uri) {
+    this.extensionUri = extensionUri;
+  }
+
+  resolveWebviewView(webviewView: vscode.WebviewView): void {
+    this.view = webviewView;
+
+    webviewView.webview.options = {
+      enableScripts: true,
+      localResourceRoots: [vscode.Uri.joinPath(this.extensionUri, 'media')],
+    };
+
+    webviewView.webview.html = this.getHtml(webviewView.webview);
+  }
+
+  update(data: DashboardData): void {
+    if (this.view) {
+      this.view.webview.postMessage({ type: 'update', data });
+    }
+  }
+
+  private getHtml(webview: vscode.Webview): string {
+    const cssUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media', 'dashboard.css'));
+    const jsUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media', 'dashboard.js'));
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="${cssUri}">
+</head>
+<body>
+  <div id="status-badge" class="status-badge safe">SAFE</div>
+
+  <div class="section">
+    <h2>Session Stats</h2>
+    <div class="stats-grid">
+      <div class="stat"><span class="stat-value" id="stat-files">0</span><span class="stat-label">Files exposed</span></div>
+      <div class="stat"><span class="stat-value" id="stat-sensitive">0</span><span class="stat-label">Sensitive</span></div>
+      <div class="stat"><span class="stat-value" id="stat-tokens">0</span><span class="stat-label">Est. tokens</span></div>
+      <div class="stat"><span class="stat-value" id="stat-warnings">0</span><span class="stat-label">Warnings</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Active Context</h2>
+    <div id="file-list"><p class="empty">No files open</p></div>
+  </div>
+
+  <script src="${jsUri}"></script>
+</body>
+</html>`;
+  }
+}

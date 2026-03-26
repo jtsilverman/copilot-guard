@@ -1,0 +1,65 @@
+{
+  "name": "copilot-guard",
+  "displayName": "Copilot Guard",
+  "description": "See what context GitHub Copilot has access to. Flags sensitive files, supports .copilotignore, real-time exposure dashboard.",
+  "version": "0.1.0",
+  "publisher": "jtsilverman",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "keywords": ["copilot", "privacy", "security", "guard", "context"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "copilotGuard.showDashboard",
+        "title": "Copilot Guard: Show Dashboard"
+      },
+      {
+        "command": "copilotGuard.toggleCopilot",
+        "title": "Copilot Guard: Toggle Copilot"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "copilot-guard",
+          "title": "Copilot Guard",
+          "icon": "$(shield)"
+        }
+      ]
+    },
+    "views": {
+      "copilot-guard": [
+        {
+          "type": "webview",
+          "id": "copilotGuard.dashboard",
+          "name": "Dashboard"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "copilotGuard.toggleCopilot",
+        "key": "ctrl+shift+g",
+        "mac": "cmd+shift+g"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.5.0",
+    "@vscode/vsce": "^3.0.0"
+  },
+  "dependencies": {
+    "minimatch": "^10.0.0"
+  }
+}

@@ -1,0 +1,8 @@
+src/
+tests/
+node_modules/
+.gitignore
+tsconfig.json
+SPEC.md
+**/*.ts
+**/*.map
