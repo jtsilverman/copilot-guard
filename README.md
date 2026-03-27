@@ -4,7 +4,7 @@ VS Code extension that shows you exactly what context GitHub Copilot has access 
 
 ## Demo
 
-[Marketplace link] | [Screenshot placeholder]
+[Marketplace link] | ![Copilot Guard Dashboard](assets/demo.png)
 
 ## The Problem
 
