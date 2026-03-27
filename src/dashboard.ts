@@ -39,15 +39,26 @@ export class DashboardViewProvider implements vscode.WebviewViewProvider {
     }
   }
 
+  private getNonce(): string {
+    let text = '';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < 32; i++) {
+      text += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return text;
+  }
+
   private getHtml(webview: vscode.Webview): string {
     const cssUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media', 'dashboard.css'));
     const jsUri = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'media', 'dashboard.js'));
+    const nonce = this.getNonce();
 
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
   <link rel="stylesheet" href="${cssUri}">
 </head>
 <body>
@@ -68,7 +79,7 @@ export class DashboardViewProvider implements vscode.WebviewViewProvider {
     <div id="file-list"><p class="empty">No files open</p></div>
   </div>
 
-  <script src="${jsUri}"></script>
+  <script nonce="${nonce}" src="${jsUri}"></script>
 </body>
 </html>`;
   }
