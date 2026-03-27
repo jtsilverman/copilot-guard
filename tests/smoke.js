@@ -26,7 +26,7 @@ try {
 }
 
 try {
-  execSync('npx @vscode/vsce package --no-dependencies', { cwd: rootDir, stdio: 'pipe' });
+  execSync('npx @vscode/vsce package', { cwd: rootDir, stdio: 'pipe' });
   const vsixSize = readFileSync(join(rootDir, 'copilot-guard-0.1.0.vsix')).length;
   assert(vsixSize > 5000, `VSIX too small: ${vsixSize}`);
   console.log(`  PASS: VSIX packages (${(vsixSize/1024).toFixed(1)} KB)`);
