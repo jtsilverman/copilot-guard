@@ -10,6 +10,8 @@ export class DashboardViewProvider implements vscode.WebviewViewProvider {
     this.extensionUri = extensionUri;
   }
 
+  private pendingData: DashboardData | undefined;
+
   resolveWebviewView(webviewView: vscode.WebviewView): void {
     this.view = webviewView;
 
@@ -19,11 +21,21 @@ export class DashboardViewProvider implements vscode.WebviewViewProvider {
     };
 
     webviewView.webview.html = this.getHtml(webviewView.webview);
+
+    // Send any data that arrived before the webview was ready
+    if (this.pendingData) {
+      setTimeout(() => {
+        webviewView.webview.postMessage({ type: 'update', data: this.pendingData });
+        this.pendingData = undefined;
+      }, 100);
+    }
   }
 
   update(data: DashboardData): void {
     if (this.view) {
       this.view.webview.postMessage({ type: 'update', data });
+    } else {
+      this.pendingData = data;
     }
   }
 
