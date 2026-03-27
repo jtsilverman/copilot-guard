@@ -5,6 +5,10 @@
   "version": "0.1.0",
   "publisher": "jtsilverman",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtsilverman/copilot-guard"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
