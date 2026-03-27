@@ -10,7 +10,7 @@ export class DashboardViewProvider implements vscode.WebviewViewProvider {
     this.extensionUri = extensionUri;
   }
 
-  private pendingData: DashboardData | undefined;
+  private latestData: DashboardData | undefined;
 
   resolveWebviewView(webviewView: vscode.WebviewView): void {
     this.view = webviewView;
@@ -22,20 +22,23 @@ export class DashboardViewProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.html = this.getHtml(webviewView.webview);
 
-    // Send any data that arrived before the webview was ready
-    if (this.pendingData) {
+    // Clear view reference when sidebar is hidden
+    webviewView.onDidDispose(() => {
+      this.view = undefined;
+    });
+
+    // Re-send latest data whenever the webview is (re)opened
+    if (this.latestData) {
       setTimeout(() => {
-        webviewView.webview.postMessage({ type: 'update', data: this.pendingData });
-        this.pendingData = undefined;
+        webviewView.webview.postMessage({ type: 'update', data: this.latestData });
       }, 100);
     }
   }
 
   update(data: DashboardData): void {
+    this.latestData = data;
     if (this.view) {
       this.view.webview.postMessage({ type: 'update', data });
-    } else {
-      this.pendingData = data;
     }
   }
 
