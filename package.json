@@ -55,7 +55,8 @@
   },
   "scripts": {
     "build": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "test": "node tests/smoke.js && node tests/integration.js && node tests/compiled-sensitivity.js && node tests/tracker.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.85.0",
